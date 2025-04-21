@@ -11,6 +11,7 @@ const RoleChoose = ({ navigation }) => {
         // Если вход успешен, тогда перенаправляем на HomePage
         navigation.navigate('HomePage');
     };
+
     const handleDriver = () => {
         // Здесь должна быть логика входа
         // Например, проверка email и password
