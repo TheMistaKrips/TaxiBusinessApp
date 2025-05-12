@@ -49,6 +49,10 @@ const HomePage = ({ navigation }) => {
         navigation.navigate('MapPage');
     };
 
+    const handleSettings = () => {
+        navigation.navigate('SettingPage');
+    };
+
     return (
         <ScrollView style={styles.container}>
             <View style={{
@@ -71,8 +75,8 @@ const HomePage = ({ navigation }) => {
                         fontSize: 18
                     }}>Drivio</Text>
                 </View>
-                <TouchableOpacity>
-                    <Image source={require('../../assets/page-assets/profile.png')}
+                <TouchableOpacity onPress={handleSettings}>
+                    <Image source={require('../../assets/page-assets/personimage.png')}
                         style={{
                             width: 32,
                             height: 32
@@ -262,7 +266,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignContent: 'center',
         paddingHorizontal: '8%',
-        paddingVertical: '5%'
+        paddingVertical: '5%',
+        marginTop: 20,
     },
     progressBarBackground: {
         width: '80%',
