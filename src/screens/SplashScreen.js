@@ -27,7 +27,7 @@ const SplashScreenComponent = ({ navigation }) => {
             style={styles.container}
         >
             <LottieView
-                source={require('../../assets/Animations/SplashAnimation.json')}
+                source={require('../../assets/Animations/Flow2.json')}
                 autoPlay
                 loop
                 style={styles.animation}
@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
+        alignContent: 'center',
         width: "100%",
         height: '100%',
     },
