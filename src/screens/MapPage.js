@@ -287,6 +287,7 @@ const MapPage = ({ navigation }) => {
                             <Text style={styles.supportButtonText}>Поддержка / жалоба</Text>
                         </TouchableOpacity>
                     </View>
+
                 </View>
             </Animated.View>
 
@@ -606,7 +607,7 @@ const styles = StyleSheet.create({
         color: '#7A7A7A'
     },
     menuFooter: {
-        paddingVertical: '90%'
+        paddingVertical: '70%'
     },
     supportButton: {
         backgroundColor: '#F3F3F3',
@@ -667,7 +668,7 @@ const styles = StyleSheet.create({
     serviceSelector: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 20,
+        marginBottom: 60,
         backgroundColor: '#F3F3F3',
         borderRadius: 10,
         padding: 5,

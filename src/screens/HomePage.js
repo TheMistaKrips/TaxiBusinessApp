@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         paddingHorizontal: '8%',
         paddingVertical: '5%',
-        marginTop: 20,
+        marginTop: 35,
     },
     progressBarBackground: {
         width: '80%',

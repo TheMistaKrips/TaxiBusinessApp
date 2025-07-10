@@ -312,6 +312,45 @@ const SettingPage = ({ navigation }) => {
                     </View>
                 </View>
             </TouchableOpacity>
+
+            <TouchableOpacity style={{
+                backgroundColor: '#F5F5F6',
+                height: 43,
+                width: '100%',
+                borderRadius: 16,
+                paddingVertical: 16,
+                paddingHorizontal: 16,
+                gap: 16,
+                justifyContent: 'center',
+                elevation: 5
+            }}>
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    gap: 10
+                }}>
+                    <View style={{
+                        flexDirection: 'row',
+                        gap: 10
+                    }} >
+                        <Image source={require('../../assets/page-assets/users.png')} style={{
+
+                        }} />
+                        <Text style={{
+                            fontWeight: '500',
+                            fontSize: 16,
+                            color: '#4D4D4D'
+                        }}>
+                            О приложении / разработчикам
+                        </Text>
+                    </View>
+                    <View style={{
+                        justifyContent: 'center'
+                    }}>
+                        <Image source={require('../../assets/page-assets/vector-arrow.png')} />
+                    </View>
+                </View>
+            </TouchableOpacity>
         </View>
     );
 };

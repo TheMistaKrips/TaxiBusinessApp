@@ -8,7 +8,7 @@ const DriverRegistration = ({ navigation }) => {
     const [color, setColor] = useState('');
 
     const handleLogin = () => {
-        navigation.navigate('HomePage');
+        navigation.navigate('DriverHomeScreen');
     };
 
     const [options, setOptions] = useState({

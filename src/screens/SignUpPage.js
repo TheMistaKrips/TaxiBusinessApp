@@ -2,17 +2,38 @@ import Checkbox from 'expo-checkbox';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
-
 const SignUpPage = ({ navigation }) => {
-    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [isChecked, setChecked] = useState(false);
 
-    const handleLogin = () => {
-        // Здесь должна быть логика входа
-        // Например, проверка email и password
-        // Если вход успешен, тогда перенаправляем на HomePage
-        navigation.navigate('CodePage');
+    const handleSignUp = () => {
+        // Проверяем, что все поля заполнены и чекбокс отмечен
+        if (name && phone && password && isChecked) {
+            // Форматируем номер телефона (удаляем все нецифровые символы)
+            const formattedPhone = phone.replace(/\D/g, '');
+            navigation.navigate('CodePage', { phone: formattedPhone });
+        }
+    };
+
+    const formatPhoneNumber = (text) => {
+        // Удаляем все нецифровые символы
+        const cleaned = text.replace(/\D/g, '');
+
+        // Ограничиваем длину номера (код страны + 10 цифр)
+        const limited = cleaned.slice(0, 11);
+
+        // Форматируем номер телефона
+        let formatted = limited;
+        if (limited.length > 3) {
+            formatted = `${limited.slice(0, 3)} ${limited.slice(3, 5)} ${limited.slice(5, 8)}`;
+            if (limited.length > 8) {
+                formatted += ` ${limited.slice(8)}`;
+            }
+        }
+
+        setPhone(formatted);
     };
 
     return (
@@ -22,15 +43,16 @@ const SignUpPage = ({ navigation }) => {
             <TextInput
                 style={styles.input}
                 placeholder="Имя и фамилия"
-                value={email}
-                onChangeText={setEmail}
+                value={name}
+                onChangeText={setName}
                 placeholderTextColor="#AAB2C4"
             />
             <TextInput
                 style={styles.input}
-                placeholder="Email или номер телефона"
-                value={email}
-                onChangeText={setEmail}
+                placeholder="Номер телефона"
+                value={phone}
+                onChangeText={formatPhoneNumber}
+                keyboardType="phone-pad"
                 placeholderTextColor="#AAB2C4"
             />
             <TextInput
@@ -42,115 +64,61 @@ const SignUpPage = ({ navigation }) => {
                 placeholderTextColor="#AAB2C4"
             />
 
-            <View style={styles.middlebar}>
-                <View style={{ flexDirection: 'row' }}>
-
+            <View style={styles.checkboxContainer}>
+                <View style={styles.checkboxRow}>
                     <Checkbox
                         value={isChecked}
                         onValueChange={setChecked}
                         color={isChecked ? '#4630EB' : undefined}
                         style={{ borderRadius: 4 }}
                     />
-                    <Text style={{
-                        marginLeft: 5,
-                        color: '#3B4054',
-                    }}>Я согласен с </Text>
+                    <Text style={styles.checkboxText}>Я согласен с </Text>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => navigation.navigate('HomePage')}>
-                        <Text style={{
-                            fontSize: 14,
-                            color: '#377DFF',
-                        }}>Условиями обслуживания</Text>
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity onPress={() => navigation.navigate('Terms')}>
+                    <Text style={styles.linkText}>Условиями обслуживания</Text>
+                </TouchableOpacity>
             </View>
-            <View style={styles.middlebar}>
-                <Text style={{
-                    marginLeft: 5,
-                    color: '#3B4054',
-                }}>и </Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => navigation.navigate('HomePage')}>
-                        <Text style={{
-                            fontSize: 14,
-                            color: '#377DFF',
-                        }}>Политикой конфиденциальности</Text>
-                    </TouchableOpacity>
-                </View>
+            <View style={styles.checkboxContainer}>
+                <Text style={styles.checkboxText}>и </Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Privacy')}>
+                    <Text style={styles.linkText}>Политикой конфиденциальности</Text>
+                </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+            <TouchableOpacity
+                style={[styles.loginButton, (!name || !phone || !password || !isChecked) && styles.disabledButton]}
+                onPress={handleSignUp}
+                disabled={!name || !phone || !password || !isChecked}
+            >
                 <Text style={styles.loginButtonText}>Создать аккаунт</Text>
             </TouchableOpacity>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <View style={{ flex: 1, height: 1, backgroundColor: '#E0E5EC' }} />
-                <View>
-                    <Text style={{ width: 50, textAlign: 'center' }}>или</Text>
-                </View>
-                <View style={{ flex: 1, height: 1, backgroundColor: '#E0E5EC' }} />
+
+            <View style={styles.divider}>
+                <View style={styles.dividerLine} />
+                <Text style={styles.dividerText}>или</Text>
+                <View style={styles.dividerLine} />
             </View>
 
-            <View style={{
-                flexDirection: 'row',
-                gap: '15%',
-                paddingVertical: 20,
-            }}>
-                <TouchableOpacity style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 10,
-                    backgroundColor: '#F5F9FE',
-                    paddingVertical: 10,
-                    paddingHorizontal: 25,
-                    borderRadius: 14,
-                    width: 150,
-                }}>
+            <View style={styles.socialButtons}>
+                <TouchableOpacity style={styles.socialButton}>
                     <Image
-                        style={{ width: 25, height: 25 }}
+                        style={styles.socialIcon}
                         source={require('../../assets/page-assets/Facebook.png')}
                     />
-                    <Text
-                        style={{
-                            color: '#61677D',
-                            fontSize: 14,
-
-                        }}>Facebook</Text>
+                    <Text style={styles.socialText}>Facebook</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 10,
-                    backgroundColor: '#F5F9FE',
-                    paddingVertical: 10,
-                    paddingHorizontal: 25,
-                    borderRadius: 14,
-                    width: 200,
-                    width: 150,
-                }}>
+                <TouchableOpacity style={styles.socialButton}>
                     <Image
-                        style={{ width: 25, height: 25 }}
+                        style={styles.socialIcon}
                         source={require('../../assets/page-assets/Google.png')}
                     />
-                    <Text
-                        style={{
-                            color: '#61677D',
-                            fontSize: 14,
-
-                        }}>Google</Text>
+                    <Text style={styles.socialText}>Google</Text>
                 </TouchableOpacity>
             </View>
 
-            <View style={{
-                flexDirection: 'row',
-                gap: '2%'
-            }}>
-                <Text style={{
-                    color: '#3B4054',
-                    marginTop: 10,
-                    fontSize: 14,
-                }}>Нет аккаунта?</Text>
+            <View style={styles.loginLink}>
+                <Text style={styles.loginText}>Уже есть аккаунт?</Text>
                 <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                     <Text style={styles.signupLink}>Войти</Text>
                 </TouchableOpacity>
@@ -162,7 +130,7 @@ const SignUpPage = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center', // Центрирование по вертикали
+        justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
         backgroundColor: '#fff',
@@ -181,6 +149,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         fontSize: 16,
         marginBottom: 15,
+        borderColor: '#EAEFF5',
+        borderWidth: 1
     },
     loginButton: {
         backgroundColor: '#377DFF',
@@ -189,11 +159,15 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         marginVertical: 15,
-        shadowColor: '#377DFF', // Цвет тени
-        shadowOffset: { width: 0, height: 4 }, // Смещение тени
-        shadowOpacity: 0.3, // Прозрачность тени
-        shadowRadius: 5, // Размытие тени
-        elevation: 5, // Для Android
+        shadowColor: '#377DFF',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+        elevation: 5,
+    },
+    disabledButton: {
+        backgroundColor: '#AAB2C4',
+        shadowColor: '#AAB2C4',
     },
     loginButtonText: {
         color: '#fff',
@@ -205,10 +179,74 @@ const styles = StyleSheet.create({
         color: '#377DFF',
         marginTop: 10,
     },
-    middlebar: {
-        flex: 0,
+    checkboxContainer: {
         flexDirection: 'row',
-    }
+        alignItems: 'center',
+        marginBottom: 5,
+    },
+    checkboxRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    checkboxText: {
+        marginLeft: 5,
+        color: '#3B4054',
+        fontSize: 14,
+    },
+    linkText: {
+        fontSize: 14,
+        color: '#377DFF',
+    },
+    divider: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '100%',
+        marginVertical: 15,
+    },
+    dividerLine: {
+        flex: 1,
+        height: 1,
+        backgroundColor: '#E0E5EC',
+    },
+    dividerText: {
+        width: 50,
+        textAlign: 'center',
+        color: '#61677D',
+    },
+    socialButtons: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: 15,
+        paddingVertical: 20,
+        width: '100%',
+    },
+    socialButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        backgroundColor: '#F5F9FE',
+        paddingVertical: 10,
+        paddingHorizontal: 25,
+        borderRadius: 14,
+        width: 150,
+    },
+    socialIcon: {
+        width: 25,
+        height: 25,
+    },
+    socialText: {
+        color: '#61677D',
+        fontSize: 14,
+    },
+    loginLink: {
+        flexDirection: 'row',
+        gap: 5,
+        marginTop: 10,
+    },
+    loginText: {
+        color: '#3B4054',
+        fontSize: 14,
+    },
 });
 
 export default SignUpPage;

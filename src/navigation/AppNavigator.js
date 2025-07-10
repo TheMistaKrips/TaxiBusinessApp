@@ -13,6 +13,7 @@ import MapPage from '../screens/MapPage';
 import SettingPage from '../screens/SettingPage';
 import DriveHistory from '../screens/DriveHistory';
 import ReferalPage from '../screens/ReferalPage';
+import DriverHomeScreen from '../screens/DriverHomeScreen';
 
 const Stack = createStackNavigator();
 
@@ -44,6 +45,7 @@ const AppNavigator = () => {
             <Stack.Screen name="SettingPage" component={SettingPage} />
             <Stack.Screen name='DriveHistory' component={DriveHistory} />
             <Stack.Screen name='ReferalPage' component={ReferalPage} />
+            <Stack.Screen name='DriverHomeScreen' component={DriverHomeScreen} />
         </Stack.Navigator>
     );
 };
